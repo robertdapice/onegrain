@@ -1,5 +1,7 @@
 require File.expand_path('../boot', __FILE__)
 
+Dir.glob("./lib/*.{rb}").each { |file| require file }
+
 require 'rails/all'
 
 if defined?(Bundler)
