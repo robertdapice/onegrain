@@ -1,6 +1,7 @@
 Onegrain::Application.routes.draw do
   resources :people
-  root :to => 'people#index'
+  root :to => 'pages#index'
+  match "data", :to => "pages#data"
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
