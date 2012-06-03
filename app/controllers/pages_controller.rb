@@ -1,4 +1,6 @@
 class PagesController < ApplicationController
+  before_filter :allow_all_domains
+
   def index
 
   end
@@ -12,4 +14,10 @@ class PagesController < ApplicationController
     @year = params[:year] || "12_13"
     render 'data'
   end
+
+  private
+
+    def allow_all_domains
+      headers["Access-Control-Allow-Origin"] = "*"
+    end
 end
