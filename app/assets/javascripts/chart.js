@@ -1,34 +1,45 @@
-var width = 960,
-    height = 700,
+var width = 600,
+    height = 600,
     radius = Math.min(width, height) / 2,
     color = d3.scale.category20c();
 
+var currentYear = '12_13';
+
 var vis = d3.select("#chart").append("svg")
     .attr("width", width)
-    .attr("height", height)
-  .append("g")
-    .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
+    .attr("height", height);
+//  .append("g")
+//    .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
+
+// group for pie
+var pie_group = vis.append("svg:g")
+	  .attr("class", "pie")
+	  .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
 
 var partition = d3.layout.partition()
     .sort(null)
     .size([2 * Math.PI, radius * radius])
-    .value(function(d) { return 1; });
+    .value(function(d) { return d.value; });
 
 var arc = d3.svg.arc()
     .startAngle(function(d) { return d.x; })
     .endAngle(function(d) { return d.x + d.dx; })
     .innerRadius(function(d) { return Math.sqrt(d.y); })
     .outerRadius(function(d) { return Math.sqrt(d.y + d.dy); });
-
+	
 d3.json("http://onegrain.herokuapp.com/data.json", function(json) {
-	  path = vis.data([json]).selectAll("path")
-	      .data(partition.nodes).enter().append("path")
-	      //.attr("display", function(d) { return d.depth ? null : "none"; }) // hide inner ring
-	      .attr("d", arc)
-	      .attr("fill-rule", "evenodd")
-	      .style("stroke", "#fff")
-	      .style("fill", function(d) { return color((d.children ? d : d.parent).name); })
-	      .each(stash);
+	  path = pie_group.data([json]).selectAll("path")
+	      	.data(partition.nodes).enter().append("path")
+	      	//.attr("display", function(d) { return d.depth ? null : "none"; }) // hide inner ring
+	      	.attr("d", arc)
+	      	.attr("fill-rule", "evenodd")
+	      	.style("stroke", "#fff")
+	      	.style("fill", function(d) { return color((d.children ? d : d.parent).name); })
+	      	.each(stash)
+			.on("click", function(d) {
+				dive(d.name);
+			});
+		updatePie(currentYear);
 	});
 
 $('#11_12').click(function() {
@@ -37,6 +48,22 @@ $('#11_12').click(function() {
 $('#12_13').click(function() {
 	updatePie('12_13');
 });
+
+// group for centre text
+var centre_group = vis.append("svg:g")
+  .attr("class", "centre_group")
+  .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
+
+var totalLabel = centre_group.append("svg:text")
+  .attr("class", "total_head")
+  .attr("dy", -15)
+  .attr("text-anchor", "middle") // text-align: right
+  .text("Federal Budget");
+centre_group.append("svg:text")
+	.attr("class", "total_body")
+  .attr("dy", 15)
+  .attr("text-anchor", "middle") // text-align: right
+  .text("$376 bilion");
 
 // Stash the old values for transition.
 function stash(d) {
@@ -53,6 +80,38 @@ function arcTween(a) {
     a.dx0 = b.dx;
     return arc(b);
   };
+}
+
+function dive(name) {
+	// reset all values if click total
+	if (name == "total") {
+		updatePie(currentYear);
+	}
+	else {	
+	path.data(partition.value(function(d) {		
+		if (d.name != name && !isChild(d, name)) {
+			return 0;
+		} else {
+			return d.value;
+		}
+	}))
+		.transition()
+		.duration(1500)
+		.attrTween("d", arcTween);
+	}	
+}
+
+function isChild(child, name) {
+	var parent = child.parent;
+	while (parent != null) {
+		if (parent.name == name) {
+			return true;
+		} 
+		else {
+			parent = parent.parent;
+		}
+	}
+	return false;
 }
 
 function updatePie(year) {
@@ -72,4 +131,5 @@ function updatePie(year) {
 	      .transition()
 	        .duration(1500)
 	        .attrTween("d", arcTween);
+	currentYear = year;
 }
