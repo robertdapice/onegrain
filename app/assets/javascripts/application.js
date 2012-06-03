@@ -10,17 +10,18 @@
 
 
 function populateSidebar(budgetItem) {
-  $("#item_name").text(budgetItem.name)
+  name = (budgetItem.name == "total" ? "Total Government Expenditure" : budgetItem.name)
+  $("#item_name").text(name)
   $("#value11_12").text("$" + add_commas(round_to_dp(budgetItem.value11_12/1000,0).toString()) + " million")
   $("#value12_13").text("$" + add_commas(round_to_dp(budgetItem.value12_13/1000,0).toString()) + " million")
   $("#value_change").text(round_to_dp(100*budgetItem.value12_13/budgetItem.value11_12 - 100, 1).toString() + "%");
   $("#individual_taxpayer").text("$" + add_commas(round_to_dp(budgetItem.value11_12*1000*0.00000003592619, 2).toString()));
   if (!budgetItem.children) {
-    $("#item_description").text(budgetItem.description || "None available")
-    $("#item_source").html("<a href='" + budgetItem.source_url + "'>" + budgetItem.source_name + "</a>")
+    $("#item_description").text(budgetItem.description || "None available");
+    $("#item_source").html("<a href='" + budgetItem.source_url + "'>" + budgetItem.source_name + "</a>");
   } else {
-    $("#item_description").text(budgetItem.description || "None available")
-    $("#item_source").html("")
+    $("#item_description").text(budgetItem.description || "None available");
+    $("#item_source").html("");
   }
 }
 

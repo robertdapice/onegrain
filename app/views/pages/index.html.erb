@@ -1,6 +1,6 @@
 <div id="container">
   <h1>Where are my taxes going?</h1>
-  <h2>For the first time in history, Australian citizens can finally see where the government spends their money.<br/>OpenBudget is a new government expenditure dataset and visualisation tool to examine what money goes where. </h2>
+  <h2>For the first time in history, Australian citizens can finally see where the government spends their money.<br/>TheOpenBudget is a new government expenditure dataset and visualisation tool to examine what money goes where. </h2>
 
   <div id="chart">
   </div>
@@ -19,7 +19,7 @@
     <div class="item_detail">
       <div class="row">
         <div class="label">Name:</div>
-        <div id="item_name" class="value">Youth Allowance</div>
+        <div id="item_name" class="value"></div>
         <div class="clear"></div>
       </div>
       <div class="row">
@@ -29,34 +29,34 @@
       </div>
       <div class="row">
         <div class="label">11-12 Actual:</div>
-        <div id="value11_12" class="value">$41,542 million</div>
+        <div id="value11_12" class="value"></div>
         <div class="clear"></div>
       </div>
       <div class="row">
         <div class="label">12-13 Budget:</div>
-        <div id="value12_13" class="value">$43,542 million</div>
+        <div id="value12_13" class="value"></div>
         <div class="clear"></div>
       </div>
       <div class="row">
         <div class="label">Change:</div>
-        <div id="value_change" class="value">+2.5%</div>
+        <div id="value_change" class="value"></div>
         <div class="clear"></div>
       </div>
       <div class="row">
         <div class="label">Description:</div>
-        <div id="item_description" class="value description">Reduce the harmful effects of tobacco use, Reduce harm to individuals and communities from excessive alcohol consumption, & Combat illicit drug use</div>
+        <div id="item_description" class="value description"></div>
         <div class="clear"></div>
       </div>
       <div class="row">
         <div class="label">Source:</div>
-        <div id="item_source" class="value source"><%= link_to "Australian Government 2012-13 Health and Ageing Portfolio Budget Statements", '#' %></div>
+        <div id="item_source" class="value source"></div>
         <div class="clear"></div>
       </div>
 
     </div>
 
   </div>
-  <div id="footer">Want to use this data for your own purposes? Be our guest! Check out the <%= link_to "json export","data.json" %>, or <%= link_to "download your own .csv", '#' %>.<br/>OpenBudget was developed for GovHack 2009, and built by a team from <%= link_to "Prosple","http://www.prosple.com.au" %> and <%= link_to "OzDocsOnline", "http://www.ozdocsonline.com.au" %>. Questions, comments, complaints? <%= mail_to "robertdapice@gmail.com", "Hit us up" %>.</div>
+  <div id="footer">Want to use this data for your own purposes? Be our guest! Check out the <%= link_to "json export","data.json" %>, or <%= link_to "download your own .csv", 'budget_data.csv' %>.<br/>TheOpenBudget was developed for GovHack 2012, and built by a team from <%= link_to "Prosple","http://www.prosple.com.au" %> and <%= link_to "OzDocsOnline", "http://www.ozdocsonline.com.au" %>. Questions, comments, complaints? <%= mail_to "robertdapice@gmail.com", "Hit us up" %>.</div>
 </div>
 <%= javascript_include_tag "chart" %>
 
