@@ -30,15 +30,20 @@ var arc = d3.svg.arc()
 d3.json("http://onegrain.herokuapp.com/data.json", function(json) {
 	  path = pie_group.data([json]).selectAll("path")
 	      	.data(partition.nodes).enter().append("path")
-	      	//.attr("display", function(d) { return d.depth ? null : "none"; }) // hide inner ring
+	      	.attr("display", function(d) { return d.depth ? null : "none"; }) // hide inner ring
 	      	.attr("d", arc)
 	      	.attr("fill-rule", "evenodd")
 	      	.style("stroke", "#fff")
-	      	.style("fill", function(d) { return color((d.children ? d : d.parent).name); })
+	      	.style("fill", function(d, i) { 
+					return color(i);
+				//return color((d.children ? d : d.parent).name);
+			})
 	      	.each(stash)
 			.on("click", function(d) {
 				dive(d.name);
-			});
+			})
+			.on("mouseover", function() { })
+			.on("mouseout", function() { });
 		updatePie(currentYear);
 	});
 
@@ -58,12 +63,12 @@ var totalLabel = centre_group.append("svg:text")
   .attr("class", "total_head")
   .attr("dy", -15)
   .attr("text-anchor", "middle") // text-align: right
-  .text("Federal Budget");
+  .text("Total Government Expenditure");
 centre_group.append("svg:text")
 	.attr("class", "total_body")
   .attr("dy", 15)
   .attr("text-anchor", "middle") // text-align: right
-  .text("$376 bilion");
+  .text("$376.3 bilion");
 
 // Stash the old values for transition.
 function stash(d) {
