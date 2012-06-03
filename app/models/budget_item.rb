@@ -5,15 +5,24 @@ class BudgetItem < ActiveRecord::Base
   def with_children
     data = {}
     data[:name] = self.name
+    data[:value12_13] = self.value12_13
+    data[:value11_12] = self.value11_12
     if self.children.length > 0
       data[:children] = self.children.map{|child| child.with_children}
     else
-      data[:value12_13] = self.value12_13
-      data[:value11_12] = self.value11_12
       data[:source_name] = self.source_name
       data[:source_url] = self.source_url
       data[:description] = self.description
     end
     data
   end
+
+  def value11_12
+    children.length > 0 ? children.map(&:value11_12).sum : self[:value11_12]
+  end
+
+  def value12_13
+    children.length > 0 ? children.map(&:value12_13).sum : self[:value12_13]
+  end
+
 end

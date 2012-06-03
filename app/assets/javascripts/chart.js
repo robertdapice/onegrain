@@ -144,6 +144,6 @@ function updatePie(year) {
 	currentYear = year;
 }
 
-function populateSidebar(budgetItem) {
-	//alert(budgetItem.name);
-}
+// function populateSidebar(budgetItem) {
+//  //alert(budgetItem.name);
+// }
