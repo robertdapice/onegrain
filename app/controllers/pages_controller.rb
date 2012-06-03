@@ -11,7 +11,6 @@ class PagesController < ApplicationController
     else
       @budget_items = BudgetItem.where(:parent_id => nil)
     end
-    @year = params[:year] || "12_13"
     render 'data'
   end
 

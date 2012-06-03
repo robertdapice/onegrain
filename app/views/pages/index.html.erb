@@ -30,7 +30,7 @@ var arc = d3.svg.arc()
     .innerRadius(function(d) { return Math.sqrt(d.y); })
     .outerRadius(function(d) { return Math.sqrt(d.y + d.dy); });
 
-d3.json("/data.json?name=" + escape("Education, Employment & Workplace Relations"), function(json) {
+d3.json("http://onegrain.herokuapp.com/data.json?name=" + escape("Education, Employment & Workplace Relations"), function(json) {
   var path = vis.data([json]).selectAll("path")
       .data(partition.nodes)
     .enter().append("path")
