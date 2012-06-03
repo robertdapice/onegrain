@@ -33,6 +33,7 @@ d3.json("http://onegrain.herokuapp.com/data.json", function(json) {
 	      	//.attr("display", function(d) { return d.depth ? null : "none"; }) // hide inner ring
 	      	.attr("d", arc)
 	      	.attr("fill-rule", "evenodd")
+	.style("opacity", 0.6)
 	      	.style("stroke", "#fff")
 	      	.style("fill", function(d, i) { 
 				if (d.depth == 0) {
@@ -46,9 +47,9 @@ d3.json("http://onegrain.herokuapp.com/data.json", function(json) {
 				dive(d.name);
 			})
 			.on("mouseover", function(d) {
+				highlight(d);
 				populateSidebar(d);
-			})
-			.on("mouseout", function() { });
+			});
 		updatePie(currentYear);
 	});
 
@@ -142,8 +143,21 @@ function updatePie(year) {
 	        .duration(1500)
 	        .attrTween("d", arcTween);
 	currentYear = year;
+	
+	if (year == '11_12') {
+		$('.total_body').text('$365.8 Billion');
+	} else {
+		$('.total_body').text('$376.3 Billion');
+	}
 }
 
-function populateSidebar(budgetItem) {
-	//alert(budgetItem.name);
+function highlight(budgetItem) {
+	d3.selectAll("path")
+       .transition()
+         .style("opacity", function(d) {
+	if (d.name != budgetItem.name && !isChild(d, budgetItem.name)) {
+		return 0.6;
+	} else {
+		return 1;
+	}});
 }
