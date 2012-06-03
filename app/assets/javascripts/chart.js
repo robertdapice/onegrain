@@ -36,7 +36,7 @@ d3.json("http://onegrain.herokuapp.com/data.json", function(json) {
 	      	.style("stroke", "#fff")
 	      	.style("fill", function(d, i) { 
 				if (d.depth == 0) {
-					
+					return '#fff';
 				}
 					return color(i);
 				//return color((d.children ? d : d.parent).name);
@@ -45,7 +45,9 @@ d3.json("http://onegrain.herokuapp.com/data.json", function(json) {
 			.on("click", function(d) {
 				dive(d.name);
 			})
-			.on("mouseover", function() { })
+			.on("mouseover", function(d) {
+				populateSidebar(d);
+			})
 			.on("mouseout", function() { });
 		updatePie(currentYear);
 	});
@@ -140,4 +142,8 @@ function updatePie(year) {
 	        .duration(1500)
 	        .attrTween("d", arcTween);
 	currentYear = year;
+}
+
+function populateSidebar(budgetItem) {
+	//alert(budgetItem.name);
 }
