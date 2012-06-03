@@ -51,6 +51,7 @@ d3.json("http://onegrain.herokuapp.com/data.json", function(json) {
         populateSidebar(d);
       });
     updatePie(currentYear);
+    populateSidebar([json][0]);
   });
 
 $('#11_12').click(function() {
