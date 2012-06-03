@@ -7,7 +7,7 @@ class ImportCsv
   require 'csv'
   def import
     header = true
-    CSV.open(@file, "r", ?,, ?\r) do |row|
+    CSV.open(@file, "r") do |row|
       if !header
         new_record = BudgetItem.new
         new_record.description = row[7]

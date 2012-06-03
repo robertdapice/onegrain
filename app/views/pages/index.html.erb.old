@@ -63,6 +63,9 @@ d3.json("data.json", function(json) {
       .style("stroke", "#fff")
       .style("fill", function(d) { return color((d.children ? d : d.parent).name); })
       .each(stash)
+
+.on("mouseover", fade(.2))
+.on("mouseout", fade(1))
     .on("click", function(d) {
 
 
@@ -78,8 +81,18 @@ d3.json("data.json", function(json) {
         }
       });
 
+	
     });
-
+	var lines = label_group.data([json]).selectAll("line").data(partition.nodes)
+	.enter().append("svg:line")
+	      .attr("x1", 0)
+	      .attr("x2", 0)
+	      .attr("y1", -radius-3)
+	      .attr("y2", -radius-8)
+	      .attr("stroke", "gray")
+	      .attr("transform", function(d) {
+	        return "rotate(" + (d.startAngle+d.endAngle)/2 * (180/Math.PI) + ")";
+	      });
   d3.select("#size").on("click", function() {
     path
         .data(partition.value(function(d) { return d.size; }))
@@ -119,5 +132,13 @@ function arcTween(a) {
     return arc(b);
   };
 }
+
+function fade(opacity) {
+   return function(g, i) {
+     d3.selectAll("path")
+       .transition()
+         .style("opacity", opacity);
+   };
+ }
 
 </script>
