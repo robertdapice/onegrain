@@ -1,3 +1,3 @@
 { "name": "total",
-  "children": [<%= BudgetItem.where(:parent_id => nil).map{|item| item.with_children.to_json}.join(",").html_safe %>]
+  "children": [<%= @budget_items.map{|item| item.with_children.to_json}.join(",").html_safe %>]
 }

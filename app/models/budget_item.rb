@@ -8,7 +8,8 @@ class BudgetItem < ActiveRecord::Base
     if self.children.length > 0
       data[:children] = self.children.map{|child| child.with_children}
     else
-      data[:size] = self.value12_13
+      data[:value12_13] = self.value12_13
+      data[:value11_12] = self.value11_12
     end
     data
   end
