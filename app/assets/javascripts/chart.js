@@ -5,8 +5,6 @@ var width = 600,
 
 var currentYear = '12_13';
 
-var diving = false;
-
 var vis = d3.select("#chart").append("svg")
     .attr("width", width)
     .attr("height", height);
@@ -47,17 +45,12 @@ d3.json("http://onegrain.herokuapp.com/data.json", function(json) {
 			})
 	      	.each(stash)
 			.on("click", function(d) {
-				diving = true;
 				dive(d.name);
-				diving = false;
+			})
+			.on("mouseover", function(d) {
+				highlight(d);
+				populateSidebar(d);
 			});
-			//.on("mouseover", function(d) {
-			//	if (!diving) {
-			//		alert('mouseover');
-			//		highlight(d);
-			//		populateSidebar(d);
-			//	}
-			//});
 		updatePie(currentYear);
 		populateSidebar([json][0]);
 	});
@@ -67,12 +60,6 @@ $('#11_12').click(function() {
 });
 $('#12_13').click(function() {
   updatePie('12_13');
-});
-
-$('path').hover(function() {
-	alert('hover');
-}, function() {
-	alert('out');
 });
 
 // group for centre text
@@ -168,7 +155,6 @@ function updatePie(year) {
 
 function highlight(budgetItem) {
   d3.selectAll("path")
-       .transition()
          .style("opacity", function(d) {
   if (d.name != budgetItem.name && !isChild(d, budgetItem.name)) {
     return 0.6;
