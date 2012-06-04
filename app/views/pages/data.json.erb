@@ -1,3 +1,5 @@
 { "name": "total",
+  "value12_13": 376300,
+  "value11_12": 365800,
   "children": [<%= @budget_items.map{|item| item.with_children.to_json}.join(",").html_safe %>]
 }

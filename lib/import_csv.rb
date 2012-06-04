@@ -7,8 +7,11 @@ class ImportCsv
   require 'csv'
   def import
     header = true
+    counter = 0
     CSV.open(@file, "r", ?,, ?\r) do |row|
       if !header
+        counter += 1
+        puts "Processing row " + counter.to_s
         new_record = BudgetItem.new
         new_record.description = row[7]
         new_record.source_name = row[8]
