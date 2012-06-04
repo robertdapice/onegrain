@@ -2,6 +2,12 @@ class BudgetItem < ActiveRecord::Base
   belongs_to :parent, :class_name => "BudgetItem"
   has_many :children, :class_name => "BudgetItem", :foreign_key => "parent_id"
 
+  def self.full_tree
+    result = Rails.cache.fetch("full-budget-tree", :expires_in => Rails.env.development? ? 1.second : 12.hours) do
+      self.where(:parent_id => nil).map{|item| item.with_children.to_json}.join(",").html_safe
+    end
+  end
+
   def with_children
     data = {}
     data[:name] = self.name
