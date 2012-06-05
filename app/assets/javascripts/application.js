@@ -7,7 +7,6 @@
 //= require jquery
 //= require jquery_ujs
 //= require_tree .
-//= require d3.v2.min
 
 
 function populateSidebar(budgetItem) {
