@@ -27,33 +27,33 @@ var arc = d3.svg.arc()
     .innerRadius(function(d) { return Math.sqrt(d.y); })
     .outerRadius(function(d) { return Math.sqrt(d.y + d.dy); });
 
-d3.json("http://onegrain.herokuapp.com/data.json", function(json) {
+d3.json("http://www.theopenbudget.org/data.json", function(json) {
 
-	  path = pie_group.data([json]).selectAll("path")
-	      	.data(partition.nodes).enter().append("path")
-	      	//.attr("display", function(d) { return d.depth ? null : "none"; }) // hide inner ring
-	      	.attr("d", arc)
-	      	.attr("fill-rule", "evenodd")
-	.style("opacity", 0.6)
-	      	.style("stroke", "#fff")
-	      	.style("fill", function(d, i) { 
-				if (d.depth == 0) {
-					return '#fff';
-				}
-					return color(i);
-				//return color((d.children ? d : d.parent).name);
-			})
-	      	.each(stash)
-			.on("click", function(d) {
-				dive(d.name);
-			})
-			.on("mouseover", function(d) {
-				highlight(d);
-				populateSidebar(d);
-			});
-		updatePie(currentYear);
-		populateSidebar([json][0]);
-	});
+    path = pie_group.data([json]).selectAll("path")
+          .data(partition.nodes).enter().append("path")
+          //.attr("display", function(d) { return d.depth ? null : "none"; }) // hide inner ring
+          .attr("d", arc)
+          .attr("fill-rule", "evenodd")
+  .style("opacity", 0.6)
+          .style("stroke", "#fff")
+          .style("fill", function(d, i) {
+        if (d.depth == 0) {
+          return '#fff';
+        }
+          return color(i);
+        //return color((d.children ? d : d.parent).name);
+      })
+          .each(stash)
+      .on("click", function(d) {
+        dive(d.name);
+      })
+      .on("mouseover", function(d) {
+        highlight(d);
+        populateSidebar(d);
+      });
+    updatePie(currentYear);
+    populateSidebar([json][0]);
+  });
 
 $('#11_12').click(function() {
   updatePie('11_12');
