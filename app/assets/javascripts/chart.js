@@ -27,7 +27,7 @@ var arc = d3.svg.arc()
     .innerRadius(function(d) { return Math.sqrt(d.y); })
     .outerRadius(function(d) { return Math.sqrt(d.y + d.dy); });
 
-d3.json("http://www.theopenbudget.org/data.json", function(json) {
+d3.json("/data.json", function(json) {
 
     path = pie_group.data([json]).selectAll("path")
           .data(partition.nodes).enter().append("path")
