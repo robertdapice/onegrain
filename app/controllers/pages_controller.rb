@@ -5,6 +5,10 @@ class PagesController < ApplicationController
 
   end
 
+  def narrow_index
+
+  end
+
   def data
     # if params[:name]
     #   @budget_items = BudgetItem.where(:parent_id => BudgetItem.find_by_name(params[:name]).id)

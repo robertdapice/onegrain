@@ -2,6 +2,7 @@ Onegrain::Application.routes.draw do
   resources :people
   root :to => 'pages#index'
   match "data", :to => "pages#data"
+  match "narrow", :to => "pages#narrow_index"
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
