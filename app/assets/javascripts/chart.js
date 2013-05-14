@@ -3,7 +3,7 @@ var width = 600,
     radius = Math.min(width, height) / 2,
     color = d3.scale.category20c();
 
-var currentYear = '12_13';
+var currentYear = '13_14';
 
 var vis = d3.select("#chart").append("svg")
     .attr("width", width)
@@ -55,11 +55,11 @@ d3.json("/data.json", function(json) {
     populateSidebar([json][0]);
   });
 
-$('#11_12').click(function() {
-  updatePie('11_12');
-});
 $('#12_13').click(function() {
   updatePie('12_13');
+});
+$('#13_14').click(function() {
+  updatePie('13_14');
 });
 
 // group for centre text
@@ -129,15 +129,15 @@ function isChild(child, name) {
 
 function updatePie(year) {
   path.data(partition.value(function(d) {
-    if (d.value12_13 === null){
+    if (d.value13_14 === null){
       return d.value;
     }
     else {
-      if (year == '12_13' ) {
-        return d.value12_13;
+      if (year == '13_14' ) {
+        return d.value13_14;
       }
-      else if (year == '11_12') {
-        return d.value11_12;
+      else if (year == '12_13') {
+        return d.value12_13;
       }
     }
     }))
@@ -146,10 +146,10 @@ function updatePie(year) {
           .attrTween("d", arcTween);
   currentYear = year;
 
-  if (year == '11_12') {
-    $('.total_body').text('$365.8 Billion');
+  if (year == '12_13') {
+    $('.total_body').text('$381.4 Billion');
   } else {
-    $('.total_body').text('$376.3 Billion');
+    $('.total_body').text('$398.3 Billion');
   }
 }
 

@@ -1,4 +1,4 @@
-<div id="narrow_container">
+<div id="container">
   <h1>Where are my taxes going?</h1>
   <h2>For the first time in history, Australian citizens can finally see where the government spends their money.<br/>TheOpenBudget is a new government expenditure dataset and visualisation tool to examine what money goes where. </h2>
 
@@ -9,11 +9,11 @@
       <div class="title">
         Select a Financial Year:
       </div>
-      <button class='first active year_toggle' id='12_13'>
-        12-13 Budget
+      <button class='first active year_toggle' id='13_14'>
+        13-14 Budget
       </button>
-      <button class='last year_toggle' id='11_12'>
-        11-12 Actual
+      <button class='last year_toggle' id='12_13'>
+        12-13 Actual
       </button>
     </div>
     <div class="item_detail">
@@ -23,18 +23,18 @@
         <div class="clear"></div>
       </div>
       <div class="row">
-        <div class="label">Cost to the average taxpayer:</div>
-        <div id="individual_taxpayer" class="value"></div>
-        <div class="clear"></div>
-      </div>
-      <div class="row">
-        <div class="label">11-12 Actual:</div>
-        <div id="value11_12" class="value"></div>
-        <div class="clear"></div>
-      </div>
-      <div class="row">
-        <div class="label">12-13 Budget:</div>
+        <div class="label">12-13 Actual:</div>
         <div id="value12_13" class="value"></div>
+        <div class="clear"></div>
+      </div>
+      <div class="row">
+        <div class="label">13-14 Budget:</div>
+        <div id="value13_14" class="value"></div>
+        <div class="clear"></div>
+      </div>
+      <div class="row">
+        <div class="label">Cost per Australian person:</div>
+        <div id="individual_taxpayer" class="value"></div>
         <div class="clear"></div>
       </div>
       <div class="row">
@@ -56,7 +56,7 @@
     </div>
 
   </div>
-  <div id="footer">Want to use this data for your own purposes? Be our guest! Check out the <%= link_to "json export","data.json" %>, or <%= link_to "download your own .csv", 'budget_data.csv' %>.<br/>TheOpenBudget was developed for GovHack 2012, and built by a team from <%= link_to "Prosple","http://www.prosple.com.au" %> and <%= link_to "OzDocsOnline", "http://www.ozdocsonline.com.au" %>. Questions, comments, complaints? <%= mail_to "robertdapice@gmail.com", "Hit us up" %>.</div>
+  <div id="footer">Want to use this data for your own purposes? Be our guest! Check out the <%= link_to "json export","data.json" %>, or <%= link_to "download your own .csv", 'budget_data.csv' %>.<br/>TheOpenBudget was originally developed for GovHack 2012, and built by a team from <%= link_to "Prosple","http://www.prosple.com.au" %> and <%= link_to "OzDocsOnline", "http://www.ozdocsonline.com.au" %>. Questions, comments, complaints? <%= link_to "Let's tweet", "https://twitter.com/theopenbudget"  %>.</div>
 </div>
 <%= javascript_include_tag "chart" %>
 
