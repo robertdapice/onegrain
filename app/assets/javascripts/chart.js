@@ -76,7 +76,12 @@ centre_group.append("svg:text")
   .attr("class", "total_body")
   .attr("dy", 15)
   .attr("text-anchor", "middle") // text-align: right
-  .text("$376.3 Billion");
+  .text("$398.3 Billion");
+  centre_group.append("svg:text")
+    .attr("class", "click_reset")
+    .attr("dy", 60)
+    .attr("text-anchor", "middle") // text-align: right
+    .text("click to reset");
 
 // Stash the old values for transition.
 function stash(d) {
@@ -98,6 +103,7 @@ function arcTween(a) {
 function dive(name) {
   // reset all values if click total
   if (name == "total") {
+    $(".click_reset").hide();
     updatePie(currentYear);
   }
   else {
@@ -111,6 +117,8 @@ function dive(name) {
     .transition()
     .duration(1500)
     .attrTween("d", arcTween);
+    $(".click_reset").show();
+    $(".click_reset").attr();
   }
 }
 
@@ -162,3 +170,5 @@ function highlight(budgetItem) {
     return 1;
   }});
 }
+
+$(".click_reset").hide();
