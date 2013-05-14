@@ -45,6 +45,7 @@ d3.json("/data.json", function(json) {
       })
           .each(stash)
       .on("click", function(d) {
+        window.location.hash = '#' + encodeURIComponent(d.name);
         dive(d.name);
       })
       .on("mouseover", function(d) {
@@ -52,6 +53,9 @@ d3.json("/data.json", function(json) {
         populateSidebar(d);
       });
     updatePie(currentYear);
+    if (window.location.hash){
+      dive(decodeURIComponent(window.location.hash.replace("#", "")));
+    }
     populateSidebar([json][0]);
   });
 
@@ -71,12 +75,12 @@ var totalLabel = centre_group.append("svg:text")
   .attr("class", "total_head")
   .attr("dy", -15)
   .attr("text-anchor", "middle") // text-align: right
-  .text("Total Government Expenditure");
+  .text("");
 centre_group.append("svg:text")
   .attr("class", "total_body")
   .attr("dy", 15)
   .attr("text-anchor", "middle") // text-align: right
-  .text("$398.3 Billion");
+  .text("");
   centre_group.append("svg:text")
     .attr("class", "click_reset")
     .attr("dy", 60)
@@ -111,12 +115,25 @@ function dive(name) {
     if (d.name != name && !isChild(d, name)) {
       return 0;
     } else {
-      return d.value;
+      if (currentYear == '13_14' ) {
+        return d.value13_14;
+      }
+      else if (currentYear == '12_13') {
+        return d.value12_13;
+      }
     }
   }))
     .transition()
     .duration(1500)
     .attrTween("d", arcTween);
+    $(".total_body").text("$" + commaSeparateNumber((path[0].parentNode.__data__.value/1000).toFixed(0)) + "m");
+    if (name == "total") {
+      $(".total_head").text("Total Government Expenditure");
+    } else {
+      $(".total_head").text(name);
+    }
+
+    console.log(path);
     $(".click_reset").show();
   }
 }
@@ -153,10 +170,11 @@ function updatePie(year) {
           .attrTween("d", arcTween);
   currentYear = year;
 
+  $(".total_head").text("Total Government Expenditure");
   if (year == '12_13') {
-    $('.total_body').text('$381.4 Billion');
+    $('.total_body').text('$381,400m');
   } else {
-    $('.total_body').text('$398.3 Billion');
+    $('.total_body').text('$398,300m');
   }
 }
 
@@ -169,6 +187,13 @@ function highlight(budgetItem) {
     return 1;
   }});
 }
+
+function commaSeparateNumber(val){
+    while (/(\d+)(\d{3})/.test(val.toString())){
+      val = val.toString().replace(/(\d+)(\d{3})/, '$1'+','+'$2');
+    }
+    return val;
+  }
 
 $(".total_head, .total_body, .click_reset").click(function(){
   dive("total");
