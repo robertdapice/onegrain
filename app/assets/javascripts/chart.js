@@ -81,7 +81,7 @@ centre_group.append("svg:text")
     .attr("class", "click_reset")
     .attr("dy", 60)
     .attr("text-anchor", "middle") // text-align: right
-    .text("click to reset");
+    .text("click to zoom out");
 
 // Stash the old values for transition.
 function stash(d) {
@@ -118,7 +118,6 @@ function dive(name) {
     .duration(1500)
     .attrTween("d", arcTween);
     $(".click_reset").show();
-    $(".click_reset").attr();
   }
 }
 
@@ -170,5 +169,9 @@ function highlight(budgetItem) {
     return 1;
   }});
 }
+
+$(".total_head, .total_body, .click_reset").click(function(){
+  dive("total");
+});
 
 $(".click_reset").hide();
