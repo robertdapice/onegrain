@@ -1,5 +1,5 @@
-var width = 600,
-    height = 600,
+var width = 700,
+    height = 700,
     radius = Math.min(width, height) / 2,
     color = d3.scale.category20c();
 
@@ -31,32 +31,33 @@ d3.json("/data.json", function(json) {
 
     path = pie_group.data([json]).selectAll("path")
           .data(partition.nodes).enter().append("path")
-          //.attr("display", function(d) { return d.depth ? null : "none"; }) // hide inner ring
           .attr("d", arc)
           .attr("fill-rule", "evenodd")
-  .style("opacity", 0.6)
+          .style("opacity", 0.6)
           .style("stroke", "#fff")
           .style("fill", function(d, i) {
-        if (d.depth == 0) {
-          return '#fff';
-        }
-          return color(i);
-        //return color((d.children ? d : d.parent).name);
-      })
-          .each(stash)
-      .on("click", function(d) {
-        window.location.hash = '#' + encodeURIComponent(d.name);
-        dive(d.name);
-      })
-      .on("mouseover", function(d) {
-        highlight(d);
-        populateSidebar(d);
-      });
+             if (d.depth == 0) {
+               return '#fff';
+             }
+             return color(i);
+           })
+           .each(stash)
+           .on("click", function(d) {
+             window.location.hash = '#' + encodeURIComponent(d.name);
+             dive(d);
+           })
+           .on("mouseover", function(d) {
+             highlight(d);
+             populateSidebar(d);
+           });
     updatePie(currentYear);
     if (window.location.hash){
-      dive(decodeURIComponent(window.location.hash.replace("#", "")));
+      current_element = findElementFromName(decodeURIComponent(window.location.hash.replace("#", "")));
+      dive(current_element);
+      populateSidebar(current_element);
+    } else {
+      populateSidebar([json][0]);
     }
-    populateSidebar([json][0]);
   });
 
 $('#12_13').click(function() {
@@ -104,15 +105,15 @@ function arcTween(a) {
   };
 }
 
-function dive(name) {
+function dive(element) {
   // reset all values if click total
-  if (name == "total") {
+  if (element.name == "total") {
     $(".click_reset").hide();
     updatePie(currentYear);
   }
   else {
   path.data(partition.value(function(d) {
-    if (d.name != name && !isChild(d, name)) {
+    if (d.name != element.name && !isChild(d, element.name)) {
       return 0;
     } else {
       if (currentYear == '13_14' ) {
@@ -126,14 +127,7 @@ function dive(name) {
     .transition()
     .duration(1500)
     .attrTween("d", arcTween);
-    $(".total_body").text("$" + commaSeparateNumber((path[0].parentNode.__data__.value/1000).toFixed(0)) + "m");
-    if (name == "total") {
-      $(".total_head").text("Total Government Expenditure");
-    } else {
-      $(".total_head").text(name);
-    }
-
-    console.log(path);
+    updatePieAnnotation(element);
     $(".click_reset").show();
   }
 }
@@ -170,12 +164,7 @@ function updatePie(year) {
           .attrTween("d", arcTween);
   currentYear = year;
 
-  $(".total_head").text("Total Government Expenditure");
-  if (year == '12_13') {
-    $('.total_body').text('$381,400m');
-  } else {
-    $('.total_body').text('$398,300m');
-  }
+  updatePieAnnotation(findElementFromName("total"))
 }
 
 function highlight(budgetItem) {
@@ -195,8 +184,27 @@ function commaSeparateNumber(val){
     return val;
   }
 
+function findElementFromName(name){
+  element = null;
+  pie_group.selectAll("path").data(partition.nodes).each(function(d){
+    if (d.name == name){
+      element = d;
+    }
+  });
+  return element;
+}
+
+function updatePieAnnotation(element){
+  $(".total_body").text("$" + commaSeparateNumber((element.value/1000).toFixed(0)) + "m");
+  if (element.name == "total") {
+    $(".total_head").text("Total Government Expenditure");
+  } else {
+    $(".total_head").text(element.name);
+  }
+}
+
 $(".total_head, .total_body, .click_reset").click(function(){
-  dive("total");
+  dive(findElementFromName("total"));
 });
 
 $(".click_reset").hide();

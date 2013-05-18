@@ -3,8 +3,20 @@ class BudgetItem < ActiveRecord::Base
   has_many :children, :class_name => "BudgetItem", :foreign_key => "parent_id"
 
   def self.full_tree
-    result = Rails.cache.fetch("full-budget-tree", :expires_in => Rails.env.development? ? 1.second : 12.hours) do
+    result = Rails.cache.fetch("full-budget-tree", :expires_in => Rails.env.development? ? 10.second : 12.hours) do
       self.where(:parent_id => nil).map{|item| item.with_children.to_json}.join(",").html_safe
+    end
+  end
+
+  def self.total12_13
+    result = Rails.cache.fetch("total12_13", :expires_in => Rails.env.development? ? 10.second : 12.hours) do
+      self.all.map{|b| b.children.length == 0 ? b.value12_13 : 0}.sum
+    end
+  end
+
+  def self.total11_12
+    result = Rails.cache.fetch("total11_12", :expires_in => Rails.env.development? ? 10.second : 12.hours) do
+      self.all.map{|b| b.children.length == 0 ? b.value11_12 : 0}.sum
     end
   end
 
